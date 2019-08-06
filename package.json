@@ -1,0 +1,32 @@
+{
+  "name": "chatbot-condominio",
+  "version": "1.0.0",
+  "description": "Chatbot for condo management",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdo-anderson/chatbot-condominio.git"
+  },
+  "keywords": [
+    "chatbot",
+    "messenger",
+    "facebook"
+  ],
+  "author": "Anderson Oliveira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sdo-anderson/chatbot-condominio/issues"
+  },
+  "homepage": "https://github.com/sdo-anderson/chatbot-condominio#readme",
+  "devDependencies": {
+    "dotenv": "^8.0.0"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "request": "^2.88.0"
+  }
+}
