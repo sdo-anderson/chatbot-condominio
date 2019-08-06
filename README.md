@@ -1,4 +1,4 @@
-# Chatbot Condomimio
+# Chatbot Condomínio
 
 ## Chatbot for condo management
 
