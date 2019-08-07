@@ -77,4 +77,4 @@ sendMessage = (recipientId, messageText) => {
   );
 };
 
-module.exports = { app };
+module.exports = app;
