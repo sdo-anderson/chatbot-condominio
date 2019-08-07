@@ -26,7 +26,7 @@ app.use("/webhook", (request, response) => {
       request.query["hub.verify_token"] === "senha-configurada-no-messenger"
     )
       response.status(200).send(request.query["hub.challenge"]);
-    else response.status(403).send("Fail!!!");
+    else response.status(403).send("GET FAIL");
   } else if (request.method === "POST") {
     var data = request.body;
     if (data && data.object === "page") {
@@ -41,8 +41,8 @@ app.use("/webhook", (request, response) => {
         });
       });
       response.send("POST OK");
-    }
-  } else response.status(403).send("Fail!!!");
+    } else response.status(403).send("POST FAIL");
+  } else response.status(403).send("REQUEST FAIL");
 });
 
 /**
