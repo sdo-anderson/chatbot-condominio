@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "nyc mocha",
-    "coveralls": "jscoverage lib && YOURPACKAGE_COVERAGE=1 nodeunit --reporter=lcov test | coveralls"
+    "coveralls": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
