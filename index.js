@@ -1,14 +1,26 @@
 const express = require("express");
+// const helmet = require("helmet");
+// const compression = require("compression");
+// const bodyParser = require("body-parser");
 const request = require("request");
-
 require("dotenv/config");
 
+//Carregando o Express
 const app = express();
 
-/**
- * @author Anderson Oliveira
+//Protegendo o express contra determinados HTTP Headers
+// app.use(helmet());
+
+//Compressao das rotas
+// app.use(compression());
+
+//Registrando um parser de JSON
+// app.use(bodyParser.json({ limit: "5mb", extended: true }));
+
+/**	//Protegendo o express contra determinados HTTP Headers
+ * @author Anderson Oliveira	// app.use(helmet());
  * @copyright 08/2019
- * @description Show server status
+ * @description Show server status	//Compressao das rotas
  */
 app.get("/", (req, res) => {
   res.send({ status: "Conectado ao Server" });
@@ -23,7 +35,7 @@ app.use("/webhook", (request, response) => {
   if (request.method === "GET") {
     if (
       request.query["hub.mode"] === "subscribe" &&
-      request.query["hub.verify_token"] === "senha-configurada-no-messenger"
+      request.query["hub.verify_token"] === process.env.VERIFY_TOKEN
     )
       response.status(200).send(request.query["hub.challenge"]);
     else response.status(403).send("GET FAIL");
@@ -32,7 +44,6 @@ app.use("/webhook", (request, response) => {
     if (data && data.object === "page") {
       data.entry.forEach(function(entry) {
         entry.messaging.forEach(function(event) {
-          var dataHora = new Date();
           if (event.message) {
             this.sendMessage(event.recipient.id, "Mensagem recebida");
           } else if (event.postback && event.postback.payload) {
@@ -45,10 +56,10 @@ app.use("/webhook", (request, response) => {
   } else response.status(403).send("REQUEST FAIL");
 });
 
-/**
- * @author Anderson Oliveira
+/**	//Protegendo o express contra determinados HTTP Headers
+ * @author Anderson Oliveira	// app.use(helmet());
  * @copyright 08/2019
- * @description Send response message
+ * @description Show server status	//Compressao das rotas
  */
 sendMessage = (recipientId, messageText) => {
   let messaData = {
@@ -64,7 +75,7 @@ sendMessage = (recipientId, messageText) => {
     {
       uri: "https://graph.facebook.com/v2.6/me/messages",
       qs: {
-        access_token: "XXX..."
+        access_token: process.env.ACCESS_TOKEN
       },
       method: "POST",
       json: messaData
@@ -76,5 +87,12 @@ sendMessage = (recipientId, messageText) => {
     }
   );
 };
+
+//Para prevenir erros nos testes
+if (!module.parent) {
+  app.listen(process.env.PORT, (req, res) => {
+    console.log("Server ativo na porta:", process.env.PORT);
+  });
+}
 
 module.exports = app;

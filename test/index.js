@@ -51,7 +51,9 @@ describe("GET webhook", () => {
     chai
       .request(server)
       .get(
-        "/webhook?hub.mode=subscribe&hub.verify_token=senha-configurada-no-messenger&hub.challenge=teste"
+        "/webhook?hub.mode=subscribe&hub.verify_token=" +
+          process.env.VERIFY_TOKEN +
+          "&hub.challenge=teste"
       )
       .end((err, res) => {
         res.should.have.status(200);
