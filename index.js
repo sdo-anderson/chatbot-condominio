@@ -17,10 +17,20 @@ const app = express();
 //Registrando um parser de JSON
 // app.use(bodyParser.json({ limit: "5mb", extended: true }));
 
+/**	//Protegendo o express contra determinados HTTP Headers
+ * @author Anderson Oliveira	// app.use(helmet());
+ * @copyright 08/2019
+ * @description Show server status	//Compressao das rotas
+ */
 app.get("/", (req, res) => {
   res.send({ status: "Conectado ao Server" });
 });
 
+/**
+ * @author Anderson Oliveira
+ * @copyright 08/2019
+ * @description Check the messenger password and handle the message
+ */
 app.use("/webhook", (request, response) => {
   if (request.method === "GET") {
     if (
@@ -30,19 +40,14 @@ app.use("/webhook", (request, response) => {
       response.status(200).send(request.query["hub.challenge"]);
     else response.status(403).send("GET FAIL");
   } else if (request.method === "POST") {
-    console.log("Post req -> ", request);
     var data = request.body;
     if (data && data.object === "page") {
       data.entry.forEach(function(entry) {
         entry.messaging.forEach(function(event) {
-          var dataHora = new Date();
           if (event.message) {
-            console.log("evento de mensagem em " + dataHora.toGMTString());
             this.sendMessage(event.recipient.id, "Mensagem recebida");
-            //tratarMensagem(event);
           } else if (event.postback && event.postback.payload) {
-            console.log("evento de botao em " + dataHora.toGMTString());
-            //tratarClickBotao(event);
+            this.sendMessage(event.recipient.id, "Evento de botão recebido");
           }
         });
       });
@@ -51,6 +56,11 @@ app.use("/webhook", (request, response) => {
   } else response.status(403).send("REQUEST FAIL");
 });
 
+/**	//Protegendo o express contra determinados HTTP Headers
+ * @author Anderson Oliveira	// app.use(helmet());
+ * @copyright 08/2019
+ * @description Show server status	//Compressao das rotas
+ */
 sendMessage = (recipientId, messageText) => {
   let messaData = {
     recipient: {
