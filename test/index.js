@@ -70,13 +70,9 @@ describe("GET webhook", () => {
  */
 describe("POST webhook", () => {
   it("it should POST response", done => {
-    let payload = {
-      object: "page"
-    };
     chai
       .request(server)
       .post("/webhook")
-      .send(payload)
       .end((err, res) => {
         res.should.have.status(403);
         res.should.have.property("text").equal("POST FAIL");
