@@ -48,8 +48,8 @@ app.use("/webhook", (request, response) => {
         });
       });
       response.status(200).send("POST OK");
-    } else response.status(401).send("POST FAIL");
-  } else response.status(402).send("REQUEST FAIL");
+    } else response.status(403).send("POST FAIL");
+  } else response.status(403).send("REQUEST FAIL");
 });
 
 /**	//Protegendo o express contra determinados HTTP Headers
