@@ -2,8 +2,8 @@ const express = require("express");
 // const helmet = require("helmet");
 // const compression = require("compression");
 const bodyParser = require("body-parser");
-const validate = require("./src/Functions/getValidate");
-const request = require("request");
+const validate = require("./src/Functions/Validate");
+const message = require("./src/Events/Messages");
 require("dotenv/config");
 
 //Load Express
@@ -41,9 +41,9 @@ app.use("/webhook", (request, response) => {
       body.entry.forEach(function(entry) {
         entry.messaging.forEach(function(event) {
           if (event.message) {
-            this.sendMessage(event.sender.id, "Mensagem recebida");
+            message.sendMessage(event.sender.id, "Mensagem recebida");
           } else if (event.postback && event.postback.payload) {
-            this.sendMessage(event.sender.id, "Evento de botão recebido");
+            message.sendMessage(event.sender.id, "Evento de botão recebido");
           }
         });
       });
@@ -51,37 +51,6 @@ app.use("/webhook", (request, response) => {
     } else response.status(403).send("POST FAIL");
   } else response.status(403).send("REQUEST FAIL");
 });
-
-/**	//Protegendo o express contra determinados HTTP Headers
- * @author Anderson Oliveira	// app.use(helmet());
- * @copyright 08/2019
- * @description Show server status	//Compressao das rotas
- */
-sendMessage = (recipientId, messageText) => {
-  request(
-    {
-      url: "https://graph.facebook.com/v2.6/me/messages",
-      qs: {
-        access_token: process.env.ACCESS_TOKEN
-      },
-      method: "POST",
-      json: {
-        recipient: {
-          id: recipientId
-        },
-        message: {
-          text: messageText
-        }
-      }
-    },
-    (error, response, body) => {
-      if (!error && response.statusCode === 200)
-        console.log("Mensagem recebida!!!");
-      else
-        console.log("Erro ao receber mensagem!!! ", error, response.body.error);
-    }
-  );
-};
 
 //Para prevenir erros nos testes
 if (!module.parent) {
