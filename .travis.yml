@@ -1,19 +1,16 @@
 sudo: false
 language: node_js
 node_js:
-  - "node"
-
+- node
 before_script:
-  - npm install
-  - npm install -g coveralls
-
+- npm install
+- npm install -g coveralls
 after_success:
-  - npm run coveralls
-
+- npm run coveralls
 deploy:
   provider: heroku
   api_key:
-    secure: ${env:api_key}
+    secure: OcrctAP+77nS40gbTbm81Q4u0wyG0IM7xp4xBIqH6s2LdvmWQrSyiyKBg89o8xHKVX8E+i+Ik/c0s29kgeDDmV9qhskRVN18sVsCtPU2ri4i/w1Q/1J+dKVnEZ3lcytTOsAEQL9+PcZM79EZUGSnBvBNjMaimFRLABx4FYn7usrpsMsBVTsxkwi+G+bs/xQtN+G62s//Knu8iK3KMSIiBvHubfgpT/ebR1NBqhD1jg35wPPR/Opkwlenp3hIoo7f95FDZXtsmihP7E3RigD9VQjGEL5/r6Bn6dbBcULkM8qSH33Mi3Q2zVtXA3TEkJdDUuhEq/y+jblkR/whjj0w9Entc6PLpj6vRjMDPbCOhcluEHcGFCN4UsiPc37diHUb3HFKshiV8w6krF8LPSQL2SR9+tXTPyzsGezomBC5ATQGjuiw5XIGpne8ynQoxAyUkq8dEsJZ2JtBNhJI3gT711VPblf6rFLTWUP25cMuo9ARfvzk0TWPUoEdZ+01gzxQLRd7LKNqK729kUZiZRWK81bSbWm8WAC39LE0pSaLGJTwODa3xKyabXkx6vO5rAMMK3VwqVBGiujdIS2wG9FPdZ+UhUHx7wCtDz7j+FS0FEYY0JyoeKJz5I7fDdCaufhl+S+FQ0skUJEnWyt15qqRUfj9aMSHh/oB9Ieqa1lW0No=
   on:
-    all_branches: true
+    branch: rev-1.0.0
   app: chatbot-condominio
