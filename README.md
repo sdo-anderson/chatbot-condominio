@@ -9,4 +9,5 @@
 
     - Integrated with the facebook messenger
     - Integrated with Heroku
+    - Integrated with Travis CI
     - Use Docker Container
