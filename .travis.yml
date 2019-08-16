@@ -13,7 +13,7 @@ after_success:
 deploy:
   provider: heroku
   api_key:
-    secure: ${env:HEROKU-API-KEY}
+    secure: ${env:api_key}
   on:
     all_branches: true
   app: chatbot-condominio
