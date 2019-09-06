@@ -1,12 +1,16 @@
 sudo: false
 language: node_js
 node_js:
-- node
+  - node
+services:
+  - docker
 before_script:
-- npm install
-- npm install -g coveralls
+  - npm install
+  - npm install -g coveralls
 after_success:
-- npm run coveralls
+  - npm run coveralls
+before_deploy:
+  - docker build -t chatbot-condominio
 deploy:
   provider: heroku
   api_key:
