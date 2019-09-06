@@ -9,8 +9,8 @@ before_script:
   - npm install -g coveralls
 after_success:
   - npm run coveralls
-before_deploy:
-  - docker build -t chatbot-condominio .
+# before_deploy:
+#   - docker build -t chatbot-condominio .
 deploy:
   provider: heroku
   api_key:

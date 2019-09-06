@@ -1,7 +1,7 @@
 FROM node:10-alpine
 
 WORKDIR /usr/app
-COPY . .
+COPY package*.json  ./
 
 RUN npm install
 
