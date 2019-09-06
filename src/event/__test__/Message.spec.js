@@ -11,13 +11,13 @@ let messages = require("../Message");
 describe("Messages Test", async () => {
   it("it should send message", async () => {
     const mensagem = await messages.sendMessage(0, "Teste");
-    console.log(mensagem);
-    // expect(mensagem.json.recipient)
-    //   .to.have.property("id")
-    //   .equal(0);
 
-    // expect(mensagem.json.message)
-    //   .to.have.property("text")
-    //   .equal("Teste");
+    expect(mensagem.json.recipient)
+      .to.have.property("id")
+      .equal(0);
+
+    expect(mensagem.json.message)
+      .to.have.property("text")
+      .equal("Teste");
   });
 });
