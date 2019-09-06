@@ -1,7 +1,7 @@
-let chai = require("chai");
+let chai = require("chai"),
+  should = chai.should();
 let chaiHttp = require("chai-http");
 let server = require("../index");
-let should = chai.should();
 
 chai.use(chaiHttp);
 
@@ -41,27 +41,27 @@ describe("GET webhook", () => {
   });
 });
 
-/**
- * @author Anderson Oliveira
- * @copyright 08/2019
- * @description Check route webhook with success
- */
-describe("GET webhook", () => {
-  it("it should GET the success status", done => {
-    chai
-      .request(server)
-      .get(
-        "/webhook?hub.mode=subscribe&hub.verify_token=" +
-          process.env.VERIFY_TOKEN +
-          "&hub.challenge=teste"
-      )
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.should.have.property("text").equal("teste");
-        done();
-      });
-  });
-});
+// /**
+//  * @author Anderson Oliveira
+//  * @copyright 08/2019
+//  * @description Check route webhook with success
+//  */
+// describe("GET webhook", () => {
+//   it("it should GET the success status", done => {
+//     chai
+//       .request(server)
+//       .get(
+//         "/webhook?hub.mode=subscribe&hub.verify_token=" +
+//           process.env.VERIFY_TOKEN +
+//           "&hub.challenge=teste"
+//       )
+//       .end((err, res) => {
+//         res.should.have.status(200);
+//         res.should.have.property("text").equal("teste");
+//         done();
+//       });
+//   });
+// });
 
 /**
  * @author Anderson Oliveira
