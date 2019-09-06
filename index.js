@@ -2,8 +2,8 @@ const express = require("express");
 // const helmet = require("helmet");
 // const compression = require("compression");
 const bodyParser = require("body-parser");
-const validate = require("./src/Functions/Validate");
-const message = require("./src/Events/Messages");
+const { validateToken } = require("./src/validate/ValidateToken");
+const { sendMessage } = require("./src/event/Message");
 require("dotenv/config");
 
 //Load Express
@@ -24,7 +24,7 @@ app = express().use(bodyParser.json());
  * @description Show server status
  */
 app.get("/", (req, res) => {
-  res.send({ status: "Conectado ao Server" });
+  res.status(200).send({ status: "Conectado ao Server" });
 });
 
 /**
@@ -34,17 +34,35 @@ app.get("/", (req, res) => {
  */
 app.use("/webhook", (request, response) => {
   if (request.method === "GET") {
-    return validate.getValidate(request, response);
+    const validate = validateToken(
+      request.query["hub.mode"] === "subscribe",
+      request.query["hub.verify_token"]
+    );
+    if (validate)
+      return response.status(200).send(request.query["hub.challenge"]);
+    response.status(403).send("GET FAIL");
   } else if (request.method === "POST") {
     let body = request.body;
     if (body && body.object === "page") {
       body.entry.forEach(function(entry) {
         entry.messaging.forEach(function(event) {
+          const message = {};
           if (event.message) {
-            message.sendMessage(event.sender.id, "Mensagem recebida");
+            message = sendMessage(event.sender.id, "Mensagem recebida");
           } else if (event.postback && event.postback.payload) {
-            message.sendMessage(event.sender.id, "Evento de botão recebido");
+            message = sendMessage(event.sender.id, "Evento de botão recebido");
           }
+          request(message, (error, response, body) => {
+            if (!error && response.statusCode === 200)
+              console.log("Mensagem recebida!!!");
+            else {
+              console.log(
+                "Erro ao receber mensagem!!! ",
+                error,
+                response.body.error
+              );
+            }
+          });
         });
       });
       response.status(200).send("POST OK");
